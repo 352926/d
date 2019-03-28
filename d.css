@@ -1,0 +1,488 @@
+/**
+ * User: dingding <352926@qq.com>
+ * Date: 2019-03-25
+ * Time: 13:09
+
+初衷：没有前端帮忙的时候，很多东西做起来确实很棘手，而且很多时候需要重写脚手架。
+既然如此，为什么不把一些常用的代码整理下，以便以后我自己用呢？
+Q：为什么要重复造轮子？选择很多，比如bootstrap
+A：
+    1、因为我的需求简单，要不了那么多功能。
+    2、风格自己写更自定义。
+    3、我会对我自己做的东西负责。
+ */
+
+/*
+自写样式 开始  “d-” 开头是用来区分自写样式，最主要目的是为了便于后期抽离重构（无论出于任何目的），便人便己
+（PS：目前的项目有两个前端接入开发，而且都写了一丁点后烂摊，后端接手，不想新样式影响老的所以尽可能分离）
+*/
+
+/*
+新项目建议引入以下初始化样式
+https://necolas.github.io/normalize.css/8.0.1/normalize.css
+*/
+
+.d-container {
+    background-color: #f2f2f2;
+}
+
+.d-container .d-show {
+    display: block !important;
+}
+
+.d-container .d-hide {
+    display: none !important;
+}
+
+.d-container .clear {
+    clear: both;
+}
+
+.d-container .d-row {
+    padding: 5px;
+}
+
+.d-container .d-row:before {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.d-container .d-row .d-box {
+    display: block;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box; /* Firefox */
+    -webkit-box-sizing: border-box; /* Safari */
+    padding: 5px;
+    float: left;
+}
+
+.d-container .d-row .d-box .d-card {
+    border-radius: 2px;
+    background-color: #fff;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .05);
+    padding-bottom: 5px;
+    position: relative;
+}
+
+.d-container .d-row .d-box .d-card .d-card-header {
+    height: 42px;
+    line-height: 42px;
+    padding: 0 30px 0 15px;
+    border-bottom: 1px solid #f6f6f6;
+    color: #333;
+    border-radius: 2px 2px 0 0;
+    font-size: 14px;
+}
+
+.d-container .d-row .d-box .d-card .d-tab {
+}
+
+.d-container .d-row .d-box .d-card .d-tab .d-tab-title {
+    height: 42px;
+    position: relative;
+    left: 0;
+    white-space: nowrap;
+    font-size: 0;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    -webkit-transition: all .2s;
+    border-bottom-color: #f6f6f6;
+}
+
+.d-container .d-row .d-box .d-card .d-tab .d-tab-title li {
+    display: inline-block;
+    margin: 0 15px;
+    padding: 0;
+    line-height: 42px;
+    vertical-align: middle;
+    font-size: 14px;
+    text-align: center;
+    cursor: pointer;
+    transition: all .2s;
+    -webkit-transition: all .2s;
+    position: relative;
+    min-width: 65px;
+}
+
+.d-container .d-row .d-box .d-card .d-tab .d-tab-title li.active {
+    color: #333;
+}
+
+.d-container .d-row .d-box .d-card .d-tab .d-card-body {
+    display: none;
+}
+
+.d-container .d-row .d-box .d-card .d-tab .d-tab-title li.active:after {
+    position: absolute;
+    left: 0;
+    top: 0;
+    content: '';
+    width: 100%;
+    height: 41px;
+    border-bottom-color: #fff;
+    border-radius: 2px 2px 0 0;
+    box-sizing: border-box;
+    pointer-events: none;
+    border: none;
+    border-bottom: 2px solid #5FB878;
+}
+
+.d-container .d-row .d-card-tools {
+    width: 100%;
+    line-height: 42px;
+    top: 0;
+    left: 0;
+    position: absolute;
+    text-align: right;
+    padding-right: 10px;
+}
+
+.d-container .d-row .d-card-tools a {
+    color: #333;
+}
+
+.d-container .d-div-overflow {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.d-container .d-row .d-box .d-card .d-card-body {
+    padding: 10px 15px;
+    line-height: 24px;
+    position: relative;
+    overflow-y: auto;
+    /*max-height: 245px;*/
+}
+
+.d-container .d-row .d-box-1 {
+    width: 8.33333333%;
+}
+
+.d-container .d-row .d-box-2 {
+    width: 16.66666667%;
+}
+
+.d-container .d-row .d-box-3 {
+    width: 25%;
+}
+
+.d-container .d-row .d-box-4 {
+    width: 33.33333333%;
+}
+
+.d-container .d-row .d-box-5 {
+    width: 41.66666667%;
+}
+
+.d-container .d-row .d-box-6 {
+    width: 50%;
+}
+
+.d-container .d-row .d-box-7 {
+    width: 58.33333333%;
+}
+
+.d-container .d-row .d-box-8 {
+    width: 66.66666667%;
+}
+
+.d-container .d-row .d-box-9 {
+    width: 75%;
+}
+
+.d-container .d-row .d-box-10 {
+    width: 83.33333333%
+}
+
+.d-container .d-row .d-box-11 {
+    width: 91.66666667%;
+}
+
+.d-container .d-row .d-box-12 {
+    width: 100%;
+}
+
+/* table css style start */
+.d-container .d-table {
+    width: 100%;
+    background-color: #fff;
+    color: #666;
+    margin: 5px 0;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.d-container .d-table tr {
+    transition: all .3s;
+    -webkit-transition: all .3s;
+}
+
+.d-container .d-table thead tr {
+    background-color: #f2f2f2;
+}
+
+.d-container .d-table th, .d-container .d-table td {
+    position: relative;
+    padding: 9px 15px;
+    min-height: 20px;
+    line-height: 20px;
+    font-size: 14px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #e6e6e6;
+    text-align: left;
+    font-weight: 400;
+}
+
+.d-container .d-table.d-table-hover > tbody > tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* table css style end */
+
+/* form css style start */
+.d-container .d-form-item {
+    margin-bottom: 15px;
+    clear: both;
+}
+
+.d-container .d-form-label {
+    display: block;
+    padding: 9px 0;
+    width: 100%;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: right;
+}
+
+/* form css style end */
+
+/* js radio start */
+.d-container .d-form-input-radio {
+    display: inline-block;
+    padding: 9px 10px 0 0;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: right;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.d-container .d-form-input-radio i.iconfont {
+    color: #c2c2c2;
+    font-size: 18px;
+    margin-right: 5px;
+    position: relative;
+    top: 1px;
+}
+
+.d-container .d-form-input-radio input[type=radio] {
+    display: none !important;
+}
+
+.d-container .d-form-input-radio i.iconfont:hover {
+    color: #5FB878 !important;
+}
+
+.d-container .d-form-input-radio.disabled, .d-container .d-form-input-radio.disabled i.iconfont {
+    cursor: not-allowed !important;
+    color: #e2e2e2 !important;
+}
+
+/* js radio end */
+
+/* js checkbox start */
+.d-container .d-form-input-checkbox {
+    display: inline-block;
+    padding: 9px 10px 0 0;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: right;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.d-container .d-form-input-checkbox i.iconfont {
+    color: #c2c2c2;
+    font-size: 16px;
+    margin-right: 5px;
+    position: relative;
+    top: 1px;
+}
+
+.d-container .d-form-input-checkbox input[type=checkbox] {
+    display: none !important;
+}
+
+.d-container .d-form-input-radio.checked i.iconfont {
+    color: #5FB878 !important;
+}
+
+.d-container .d-form-input-checkbox i.iconfont:hover, .d-container .d-form-input-checkbox.checked i.iconfont {
+    color: #5FB878 !important;
+}
+
+.d-container .d-form-input-checkbox.disabled, .d-container .d-form-input-checkbox.disabled i.iconfont {
+    cursor: not-allowed !important;
+    color: #e2e2e2 !important;
+}
+
+/* js checkbox end */
+
+/* default input select textarea css style start */
+.d-container input, .d-container select, .d-container textarea {
+    display: block;
+    width: 100%;
+    padding-left: 10px;
+    height: 38px;
+    line-height: 1.3;
+    border: 1px solid #e6e6e6;
+    background-color: #fff;
+    border-radius: 2px;
+}
+
+.d-container .d-input-inline {
+    display: inline-block;
+    height: 38px;
+    vertical-align: middle;
+    cursor: pointer;
+    padding-right: 10px;
+    margin-bottom: 5px;
+}
+
+.d-container .d-input-inline input {
+    display: inline-block;
+    width: auto;
+    vertical-align: middle;
+}
+
+.d-container .d-input-inline input[type=radio], .d-container .d-input-inline input[type=checkbox] {
+    text-align: right;
+    padding: 9px 10px 0 0;
+    margin-right: 5px;
+    position: relative;
+    top: -1px;
+    cursor: pointer;
+}
+
+.d-container input:hover, .d-container textarea:hover .d-container input:focus, .d-container textarea:focus {
+    border-color: #D2D2D2 !important;
+}
+
+.d-container textarea {
+    min-height: 60px;
+    height: auto;
+    line-height: 20px;
+    padding: 6px 10px;
+    resize: vertical;
+}
+/* default input select textarea css style end */
+
+/* btn start */
+
+.d-container .d-btn {
+    display: inline-block;
+    height: 38px;
+    line-height: 38px;
+    white-space: nowrap;
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 0 18px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #C9C9C9;
+    border-image: initial;
+    border-radius: 2px;
+    background-color: #fff;
+    color: #555;
+}
+
+.d-container .d-btn:hover {
+    border-color: #009688;
+    color: #333;
+}
+
+.d-container .d-btn-primary {
+    background-color: #1E9FFF;
+    color: #fff;
+    border: none;
+}
+
+.d-container .d-btn-success {
+    background-color: #5cb85c;
+    color: #fff;
+    border: none;
+}
+
+.d-container .d-btn-danger {
+    background-color: #FF5722;
+    color: #fff;
+    border: none;
+}
+
+.d-container .d-btn-warn {
+    background-color: #FFB800;
+    color: #fff;
+    border: none;
+}
+
+.d-container .d-btn-primary:hover, .d-container .d-btn-success:hover, .d-container .d-btn-warn:hover, .d-container .d-btn-danger:hover {
+    opacity: .8;
+    filter: alpha(opacity=80);
+    color: #fff;
+}
+
+.d-container .d-btn:disabled {
+    border: 1px solid #e6e6e6;
+    background-color: #FBFBFB;
+    color: #C9C9C9;
+    cursor: not-allowed;
+    opacity: 1;
+}
+
+.d-container .d-btn.d-btn-lg {
+    height: 44px;
+    line-height: 44px;
+    padding: 0 25px;
+    font-size: 16px;
+}
+
+.d-container .d-btn.d-btn-sm {
+    height: 30px;
+    line-height: 30px;
+    padding: 0 10px;
+    font-size: 12px;
+}
+
+.d-container .d-btn.d-btn-xs {
+    height: 22px;
+    line-height: 22px;
+    padding: 0 5px;
+    font-size: 12px;
+}
+/* btn end */
+
+
+@font-face {
+    font-family: 'iconfont';  /* project id 1105933 */
+    src: url('//at.alicdn.com/t/font_1105933_2r11f254jr1.eot');
+    src: url('//at.alicdn.com/t/font_1105933_2r11f254jr1.eot?#iefix') format('embedded-opentype'),
+    url('//at.alicdn.com/t/font_1105933_2r11f254jr1.woff2') format('woff2'),
+    url('//at.alicdn.com/t/font_1105933_2r11f254jr1.woff') format('woff'),
+    url('//at.alicdn.com/t/font_1105933_2r11f254jr1.ttf') format('truetype'),
+    url('//at.alicdn.com/t/font_1105933_2r11f254jr1.svg#iconfont') format('svg');
+}
+
+.iconfont {
+    font-family: "iconfont" !important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/*自写样式 结束  “d-” 开头是用来区分自写样式，最主要目的是为了便于后期抽离重构（无论出于任何目的），便人便己*/
