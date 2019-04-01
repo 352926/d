@@ -22,8 +22,41 @@ A：
 https://necolas.github.io/normalize.css/8.0.1/normalize.css
 */
 
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+*:before,
+*:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+blockquote, body, button, dd, div, dl, dt, form, h1, h2, h3, h4, h5, h6, input, li, ol, p, pre, td, textarea, th, ul {
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+    background-color: #fff;
+    height: 100%;
+}
+
 .d-container {
     background-color: #f2f2f2;
+}
+
+.d-container a {
+    color: #333;
+    text-decoration: none;
 }
 
 .d-container .d-show {
@@ -36,6 +69,14 @@ https://necolas.github.io/normalize.css/8.0.1/normalize.css
 
 .d-container .clear {
     clear: both;
+}
+
+.d-container .clearfix:after, .d-container .d-row:after, .d-container .d-row .d-card:after {
+    content: '.';
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
 }
 
 .d-container .d-row {
@@ -151,9 +192,6 @@ https://necolas.github.io/normalize.css/8.0.1/normalize.css
 .d-container .d-row .d-box .d-card .d-card-body {
     padding: 10px 15px;
     line-height: 24px;
-    position: relative;
-    overflow-y: auto;
-    /*max-height: 245px;*/
 }
 
 .d-container .d-row .d-box-1 {
@@ -331,6 +369,93 @@ https://necolas.github.io/normalize.css/8.0.1/normalize.css
 
 /* js checkbox end */
 
+/* js select start */
+.d-container .d-form-select {
+    position: relative;
+    display: inline-block;
+    font-weight: 400;
+    line-height: 20px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.d-container .d-form-select select {
+    display: none !important;
+}
+
+.d-container .d-form-select .d-form-select-title input {
+    cursor: pointer;
+}
+
+.d-container .d-form-select ul.d-form-select-option {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 42px;
+    padding: 5px 0;
+    z-index: 899;
+    min-width: 100%;
+    border: 1px solid #d2d2d2;
+    max-height: 300px;
+    overflow-y: auto;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12);
+    box-sizing: border-box;
+}
+
+.d-container .d-form-select ul.d-form-select-option > li.active {
+    background-color: #5FB878 !important;
+    color: #fff;
+}
+
+.d-container .d-form-select ul.d-form-select-option li.disabled {
+    color: #d2d2d2 !important;
+    background-color: #fff !important;
+    cursor: not-allowed !important;
+}
+
+.d-container .d-form-select ul.d-form-select-option li {
+    padding: 0 10px;
+    line-height: 36px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.d-container .d-form-select ul.d-form-select-option li:hover {
+    background-color: #f2f2f2;
+    -webkit-transition: .5s all;
+    transition: .5s all;
+}
+
+.d-container .d-form-select ul.d-form-select-option.d-form-select-group li {
+    padding-left: 20px;
+}
+
+.d-container .d-form-select ul.d-form-select-option.d-form-select-group li.select_tips {
+    padding-left: 10px;
+    color: #999;
+}
+
+.d-container .d-form-select .d-form-select-group li.group {
+    font-size: 12px;
+    color: #999 !important;
+    background-color: #fff !important;
+    cursor: default !important;
+    padding: 0 10px !important;
+    line-height: 36px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.d-container .d-form-select .d-form-select-option.d-form-select-group:hover {
+    /**/
+}
+
+/* js select end */
+
 /* default input select textarea css style start */
 .d-container input, .d-container select, .d-container textarea {
     display: block;
@@ -341,6 +466,7 @@ https://necolas.github.io/normalize.css/8.0.1/normalize.css
     border: 1px solid #e6e6e6;
     background-color: #fff;
     border-radius: 2px;
+    outline: none;
 }
 
 .d-container .d-input-inline {
@@ -352,7 +478,7 @@ https://necolas.github.io/normalize.css/8.0.1/normalize.css
     margin-bottom: 5px;
 }
 
-.d-container .d-input-inline input {
+.d-container .d-input-inline input, .d-container .d-input-inline select {
     display: inline-block;
     width: auto;
     vertical-align: middle;
@@ -367,7 +493,7 @@ https://necolas.github.io/normalize.css/8.0.1/normalize.css
     cursor: pointer;
 }
 
-.d-container input:hover, .d-container textarea:hover .d-container input:focus, .d-container textarea:focus {
+.d-container input:hover, .d-container select:hover, .d-container textarea:hover, .d-container input:focus, .d-container select:focus, .d-container textarea:focus {
     border-color: #D2D2D2 !important;
 }
 
@@ -378,6 +504,28 @@ https://necolas.github.io/normalize.css/8.0.1/normalize.css
     padding: 6px 10px;
     resize: vertical;
 }
+
+.d-container .d-input-group {
+    position: relative;
+}
+
+.d-container .d-input-group input {
+    padding-right: 30px;
+}
+
+.d-container .d-input-group .d-input-group-addon {
+    display: inline-block;
+    overflow: hidden;
+    position: absolute;
+    right: 10px;
+    top: 25%;
+    margin-top: -3px;
+    cursor: pointer;
+    color: #c2c2c2;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+}
+
 /* default input select textarea css style end */
 
 /* btn start */
@@ -398,6 +546,7 @@ https://necolas.github.io/normalize.css/8.0.1/normalize.css
     border-radius: 2px;
     background-color: #fff;
     color: #555;
+    outline: none;
 }
 
 .d-container .d-btn:hover {
@@ -463,17 +612,18 @@ https://necolas.github.io/normalize.css/8.0.1/normalize.css
     padding: 0 5px;
     font-size: 12px;
 }
+
 /* btn end */
 
 
 @font-face {
     font-family: 'iconfont';  /* project id 1105933 */
-    src: url('//at.alicdn.com/t/font_1105933_2r11f254jr1.eot');
-    src: url('//at.alicdn.com/t/font_1105933_2r11f254jr1.eot?#iefix') format('embedded-opentype'),
-    url('//at.alicdn.com/t/font_1105933_2r11f254jr1.woff2') format('woff2'),
-    url('//at.alicdn.com/t/font_1105933_2r11f254jr1.woff') format('woff'),
-    url('//at.alicdn.com/t/font_1105933_2r11f254jr1.ttf') format('truetype'),
-    url('//at.alicdn.com/t/font_1105933_2r11f254jr1.svg#iconfont') format('svg');
+    src: url('//at.alicdn.com/t/font_1105933_s2urmoh4e4j.eot');
+    src: url('//at.alicdn.com/t/font_1105933_s2urmoh4e4j.eot?#iefix') format('embedded-opentype'),
+    url('//at.alicdn.com/t/font_1105933_s2urmoh4e4j.woff2') format('woff2'),
+    url('//at.alicdn.com/t/font_1105933_s2urmoh4e4j.woff') format('woff'),
+    url('//at.alicdn.com/t/font_1105933_s2urmoh4e4j.ttf') format('truetype'),
+    url('//at.alicdn.com/t/font_1105933_s2urmoh4e4j.svg#iconfont') format('svg');
 }
 
 .iconfont {

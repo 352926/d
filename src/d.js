@@ -302,24 +302,121 @@ if (typeof jQuery === 'undefined' && typeof Zepto === 'undefined') {
     $.fn.radio = Plugin;
 }($);
 
-$(document).ready(function () {
+// select 组件
++function ($) {
+    'use strict';
 
-    $('input[name=radio_aaa]').on('change.d.radio', function (e) {
-        console.log('radio 被改变', e, this);
-    });
+    var Select = function (element) {
+        this.element = $(element);
+    };
 
-    $('input[name=checkbox_aaa]').on('change.d.checkbox', function (e) {
-        console.log('checkbox 被改变', e, this);
-    });
+    Select.prototype.init = function () {
+        var $this = this.element;
 
-    $('.btn').on('click', function () {
-        console.log($('input[name=radio_bbb]:checked').val());
-        return;
-        var input = $('.cc');
-        var div = $('.bb');
-        console.log(input.val());
-        div.append(input);
-        input.val('sss');
-        console.log(input);
+        var $parent = $this.parent();
+        if ($parent.hasClass('d-form-select')) {
+            // has initialized
+            return false;
+        }
+
+        var select_html = $this.prop('outerHTML');
+        var options = $this.children();
+        var placeholder = '';
+        var search = $this.attr('d-search') !== undefined;
+
+        var select_group = false;
+
+        var items = [];
+        options.each(function () {
+            var li_class = '';
+            if (placeholder === '' && $(this).val() === '') {
+                placeholder = $(this).html();
+                li_class = 'select_tips';
+            }
+
+            if (this.tagName.toLowerCase() === 'optgroup') {
+                select_group = true;
+                items.push('<li class="group">' + $(this).attr('label') + '</li>');
+                $(this).find('option').each(function () {
+                    items.push('<li class="' + ($(this).is(':selected') ? ' active' : '') + '" data-value="' + $(this).val() + '">' + $(this).html() + '</li>');
+                });
+
+            } else {
+                items.push('<li class="' + li_class + ($(this).is(':selected') ? ' active' : '') + '" data-value="' + $(this).val() + '">' + $(this).html() + '</li>');
+            }
+
+        });
+
+        var ul = '<ul class="d-form-select-option' + (select_group ? ' d-form-select-group' : '') + '">' + items.join('') + '</ul>';
+
+        var width = $this.css('width') !== '0px' ? 'width:' + $this.css('width') : '';
+        var input = '<div class="d-form-select-title d-input-group">' +
+            '<input type="text" placeholder="' + placeholder + '"' + (search ? '' : ' readonly') + ' value="" style="' + width + '">' +
+            '<span class="d-input-group-addon"><i class="iconfont">&#xe843;</i></span></div>';
+        var html = '<div class="d-form-select">' + input + ul + select_html + '</div>';
+
+        $this.before(html);
+        $this.remove();
+    };
+
+    Select.prototype.show = function () {
+        var $this = this.element;
+        var $icon = $this.parent().find('.d-input-group-addon i.iconfont');
+        var $option = $this.parent().find('.d-form-select-option');
+
+        $this.addClass('open');
+        $icon.html('&#xe844;');
+        $option.show();
+    };
+
+    Select.prototype.hide = function () {
+        var $this = this.element;
+        var $icon = $this.parent().find('.d-input-group-addon i.iconfont');
+        var $option = $this.parent().find('.d-form-select-option');
+
+        $this.removeClass('open');
+        $icon.html('&#xe843;');
+        $option.hide();
+    };
+
+    Select.prototype.click = function () {
+        var $this = this.element;
+
+        if ($this.hasClass('open')) {
+            //已经打开
+            console.log('a');
+            this.hide();
+        } else {
+            console.log('b');
+            this.show();
+        }
+    };
+
+    var Plugin = function (option) {
+        return this.each(function () {
+            var $this = $(this);
+
+            var data = $this.data('d.select');
+            if (!data) $this.data('d.select', (data = new Select(this)));
+            if (typeof option == 'string') data[option]();
+        });
+    };
+    $.fn.select = Plugin;
+
+    var ClickHandle = function (e) {
+        var $select = $(this).closest('.d-form-select');
+
+        Plugin.call($select.find('select:first'), 'click');
+        $('.d-container').one('click', function () {
+            Plugin.call($('.d-container').find('.d-form-select select'), 'hide');
+        });
+        e.stopPropagation();
+    };
+
+    $(document).on('click', '.d-form-select input', ClickHandle);
+    $(document).on('click', '.d-form-select input', ClickHandle);
+
+    $('.d-container').find('select').each(function () {
+        Plugin.call($(this), 'init');
     });
-});
+}($);
