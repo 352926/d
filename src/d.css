@@ -406,7 +406,7 @@ body {
 
 .d-container .d-form-select ul.d-form-select-option > li.active {
     background-color: #5FB878 !important;
-    color: #fff;
+    color: #fff !important;
 }
 
 .d-container .d-form-select ul.d-form-select-option li.disabled {

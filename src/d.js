@@ -351,32 +351,131 @@ if (typeof jQuery === 'undefined' && typeof Zepto === 'undefined') {
 
         var width = $this.css('width') !== '0px' ? 'width:' + $this.css('width') : '';
         var input = '<div class="d-form-select-title d-input-group">' +
-            '<input type="text" placeholder="' + placeholder + '"' + (search ? '' : ' readonly') + ' value="" style="' + width + '">' +
+            '<input type="text" class="d-form-select-input" placeholder="' + placeholder + '"' + (search ? '' : ' readonly') + ' value="" style="' + width + '">' +
             '<span class="d-input-group-addon"><i class="iconfont">&#xe843;</i></span></div>';
         var html = '<div class="d-form-select">' + input + ul + select_html + '</div>';
 
         $this.before(html);
         $this.remove();
+
+        $('body').find('.d-container .d-form-select .d-form-select-input').unbind('keydown').keydown(function (e) {
+            var $self = $(this);
+            var $parent = $self.parent().parent();
+            if (!$parent.find('.d-form-select-option').is(':visible')) {
+                //面板没有打开就返回
+                $self.blur();
+                return false;
+            }
+
+            switch (e.keyCode) {
+                case 38:
+                case 40:
+                case 13:
+                    if (!$parent.hasClass('d-form-select')) {
+                        //非本组件不生效
+                        return false;
+                    }
+
+                    var $select_option = $parent.find('.d-form-select-option li.active');
+
+                    if (e.keyCode === 38) {
+                        //上
+                        var $prev_option = $select_option.prevAll(':not(.group):not(.d-hide):first');
+                        if ($prev_option && $prev_option.length > 0) {
+                            $select_option.removeClass('active');
+                            $prev_option.addClass('active')
+                        }
+                    } else if (e.keyCode === 40) {
+                        //下
+                        var $next_option = $select_option.nextAll(':not(.group):not(.d-hide):first');
+                        if ($next_option && $next_option.length > 0) {
+                            $select_option.removeClass('active');
+                            $next_option.addClass('active');
+                        }
+                    } else if (e.keyCode === 13) {
+                        //回车
+                        $parent.find('select:first').select('val', $select_option.attr('data-value'));
+                        $self.blur();
+                    }
+
+                    return false;
+            }
+        });
+
+        $('body').find('.d-container .d-form-select .d-form-select-input').unbind('keyup').keyup(function (e) {
+            var $self = $(this);
+            var $parent = $self.parent().parent();
+            if (!$parent.hasClass('d-form-select')) {
+                //非本组件不生效
+                return false;
+            }
+
+            if (!$parent.find('.d-form-select-option').is(':visible')) {
+                //面板没有打开就返回
+                return false;
+            }
+
+            var search = $self.attr('readonly') === undefined;
+            if (search) {
+                //需要搜索
+                var value = $self.val();
+
+                var $options = $parent.find('.d-form-select-option li:not(.group)');
+
+                var has_result = false;
+                $options.each(function () {
+                    if ($(this).text().indexOf(value) !== -1) {
+                        $(this).removeClass('d-hide');
+                        has_result = true;
+                    } else {
+                        $(this).addClass('d-hide');
+                    }
+                });
+
+                if (has_result === false) {
+                    $parent.find('.d-form-select-option').append('<li class="not_matched">无匹配项</li>');
+                }
+            }
+        });
     };
 
     Select.prototype.show = function () {
         var $this = this.element;
         var $icon = $this.parent().find('.d-input-group-addon i.iconfont');
-        var $option = $this.parent().find('.d-form-select-option');
+        var $options = $this.parent().find('.d-form-select-option');
 
         $this.addClass('open');
         $icon.html('&#xe844;');
-        $option.show();
+        $options.show();
     };
 
     Select.prototype.hide = function () {
         var $this = this.element;
-        var $icon = $this.parent().find('.d-input-group-addon i.iconfont');
-        var $option = $this.parent().find('.d-form-select-option');
+        var $parent = $this.parent();
+        var $icon = $parent.find('.d-input-group-addon i.iconfont');
+        var $options = $this.parent().find('.d-form-select-option');
+        $options.find('li.d-hide').removeClass('d-hide');
+        $options.find('li.not_matched').remove();
+
+        var input_value = $parent.find('input.d-form-select-input').val();
+
+        if (input_value.trim().length > 0) {
+            var reset = true;
+            $options.each(function () {
+                if ($(this).text() === input_value) {
+                    reset = false;
+                }
+            });
+
+            if (reset) {
+                var v = $options.find('li.active').attr('data-value') !== '' ? $options.find('li.active').text() : '';
+                $parent.find('input.d-form-select-input').val(v).blur();
+            }
+        }
 
         $this.removeClass('open');
         $icon.html('&#xe843;');
-        $option.hide();
+        $options.hide();
     };
 
     Select.prototype.click = function () {
@@ -384,38 +483,86 @@ if (typeof jQuery === 'undefined' && typeof Zepto === 'undefined') {
 
         if ($this.hasClass('open')) {
             //已经打开
-            console.log('a');
             this.hide();
         } else {
-            console.log('b');
             this.show();
         }
     };
 
-    var Plugin = function (option) {
+    Select.prototype.val = function (value) {
+        var $this = this.element;
+        var $parent = $this.parent();
+
+        if (!$parent.hasClass('d-form-select')) {
+            return false;
+        }
+
+        var $options = $parent.find('.d-form-select-option');
+        $this.val(value);
+
+        $options.find('li:not(.group)').each(function () {
+            var $li = $(this);
+            if ($li.attr('data-value') === value) {
+                $li.addClass('active');
+                $parent.find('input[type=text]').val(value === '' ? '' : $li.text());
+            } else {
+                $li.removeClass('active');
+            }
+        });
+        $this.change();
+
+        this.hide();
+    };
+
+    var Plugin = function (option, value) {
         return this.each(function () {
             var $this = $(this);
 
             var data = $this.data('d.select');
             if (!data) $this.data('d.select', (data = new Select(this)));
-            if (typeof option == 'string') data[option]();
+            if (typeof option == 'string') data[option](value);
         });
     };
     $.fn.select = Plugin;
 
     var ClickHandle = function (e) {
-        var $select = $(this).closest('.d-form-select');
+        var $this = $(this);
+        var $select = $this.closest('.d-form-select');
 
         Plugin.call($select.find('select:first'), 'click');
-        $('.d-container').one('click', function () {
-            Plugin.call($('.d-container').find('.d-form-select select'), 'hide');
+
+        $('.d-container').one('click', function (ev) {
+            if (e.target !== ev.target) {
+                Plugin.call($('.d-container').find('.d-form-select select.open'), 'hide');
+            }
         });
         e.stopPropagation();
     };
 
-    $(document).on('click', '.d-form-select input', ClickHandle);
-    $(document).on('click', '.d-form-select input', ClickHandle);
+    $(document).on('click', '.d-container .d-form-select-title', ClickHandle);
+    $(document).on('click', '.d-container .d-form-select-option li', function () {
+        var value = $(this).attr('data-value');
+        var $select = $(this).parent().parent().find('select:first');
+        Plugin.call($select, 'val', value);
+    });
 
+
+    // $('body').find('.d-container .d-form-select').find('input').keydown(function (e) {
+    //     console.log(e.keyCode);
+    //     if (e.keyCode === 38) {
+    //         //
+    //     }
+    // });
+    // $(document).keydown(function (e) {
+    //     console.log(e.keyCode);
+    //     return false;
+    // });
+    // $("input").keydown(function () {
+    //     $("input").css("background-color", "#FFFFCC");
+    // });
+    // $("input").keyup(function () {
+    //     $("input").css("background-color", "#D6D6FF");
+    // });
     $('.d-container').find('select').each(function () {
         Plugin.call($(this), 'init');
     });
