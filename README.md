@@ -6,6 +6,9 @@
 初衷：d.css 提供了 box、table、tab、form、iconfont 一些基础的样式美化。也就几行代码，但这些就够了，解决了每次写样式的痛苦，更适合一名后端来写页面（关键是设计页面）。
 ```
 
+#### demo 地址
+https://ding.uq0.com/d/demo.html
+
 #### 基础样式
 
 新页面最好引入CSS重置样式库，https://necolas.github.io/normalize.css/8.0.1/normalize.css 以增强跨浏览器表现的一致性。
