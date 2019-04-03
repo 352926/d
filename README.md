@@ -147,7 +147,7 @@ d-table-hover，鼠标悬停样式
 </table>
 ```
 
-#### Checkbox Radio 组件
+#### Checkbox Radio Select 组件
 
 如果引入d.js，则会自动美化input checkbox和radio组件，因此以下事件你不得不了解。这也算是修复bootstrap上的一些不足吧。
 
@@ -187,7 +187,32 @@ $('input[name=checkbox_aaa]').on('change.d.checkbox', function (e) {
 </label>
 ```
 
+##### Select 用法
 
+html详细写法请参考 demo https://ding.uq0.com/d/demo.html
+引入d.js将自动渲染，渲染后继承select的width属性
+```
+<select name="select_default_love" style="width: 85px">
+    <option value="">请选择</option>
+    <optgroup label="美食">
+        <option value="红烧肉">红烧肉？</option>
+        <option value="鸡蛋">鸡蛋？</option>
+    </optgroup>
+    <optgroup label="电视">
+        <option value="笑傲江湖">笑傲江湖？</option>
+        <option value="鹿鼎记" selected>鹿鼎记？</option>
+        <option value="天龙八部">天龙八部？</option>
+    </optgroup>
+</select>
+```
+#### 事件绑定
+```
+$('select[name=select_default_love]').select('init'); //针对动态创建的select框初始化
+$('select[name=select_default_love]').select('val','xxx'); //选中select值
+$('select[name=select_default_love]').select('show'); //弹出菜单
+$('select[name=select_default_love]').select('hide'); //隐藏菜单
+$('select[name=select_default_love]').select('click'); //触发点击菜单事件，自动切换 show/hide状态
+```
 
 #### Button样式
 
