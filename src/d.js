@@ -5,7 +5,7 @@
  */
 
 if (typeof jQuery === 'undefined' && typeof Zepto === 'undefined') {
-    throw new Error('D\'s JavaScript requires jQuery or Zepto')
+    throw new Error('D\'s JavaScript requires jQuery')
 }
 
 //版本检测，以后或许用得到
@@ -566,4 +566,4 @@ if (typeof jQuery === 'undefined' && typeof Zepto === 'undefined') {
     $('.d-container').find('select').each(function () {
         Plugin.call($(this), 'init');
     });
-}($);
+}(jQuery);

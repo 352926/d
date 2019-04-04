@@ -9,6 +9,8 @@
 #### demo 地址
 https://ding.uq0.com/d/demo.html
 
+https://ding.uq0.com/d/demo_h5.html
+
 #### 基础样式
 
 新页面最好引入CSS重置样式库，https://necolas.github.io/normalize.css/8.0.1/normalize.css 以增强跨浏览器表现的一致性。
