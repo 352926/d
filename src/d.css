@@ -50,8 +50,30 @@ body {
     height: 100%;
 }
 
+.clearfix:before,
+.clearfix:after,
+.d-container:before,
+.d-container:after,
+.d-container-fluid:before,
+.d-container-fluid:after,
+.d-row:before,
+.d-row:after {
+    display: table;
+    content: " ";
+}
+
+.clearfix:after,
+.d-container:after,
+.d-container-fluid:after,
+.d-row:after {
+    clear: both;
+}
+
 .d-container {
-    background-color: #f2f2f2;
+    padding-right: 5px;
+    padding-left: 5px;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 .d-container a {
@@ -71,7 +93,12 @@ body {
     clear: both;
 }
 
-.d-container .clearfix:after, .d-container .d-row:after, .d-container .d-row .d-card:after {
+.d-container .clearfix:after,
+.d-container .d-row:after,
+.d-container .d-card:after,
+.d-container .d-box:after,
+.d-container .d-form-item:after,
+.d-container .d-input-inline:after {
     content: '.';
     display: block;
     height: 0;
@@ -282,7 +309,7 @@ body {
 
 /* form css style start */
 .d-container .d-form-item {
-    margin-bottom: 15px;
+    margin-bottom: 0;
     clear: both;
 }
 
@@ -471,7 +498,6 @@ body {
 
 .d-container .d-input-inline {
     display: inline-block;
-    height: 38px;
     vertical-align: middle;
     cursor: pointer;
     padding-right: 10px;
