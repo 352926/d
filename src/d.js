@@ -349,11 +349,11 @@ if (typeof jQuery === 'undefined' && typeof Zepto === 'undefined') {
 
         var ul = '<ul class="d-form-select-option' + (select_group ? ' d-form-select-group' : '') + '">' + items.join('') + '</ul>';
 
-        var width = $this.css('width') !== '0px' ? 'width:' + $this.css('width') : '';
-        var input = '<div class="d-form-select-title d-input-group">' +
-            '<input type="text" class="d-form-select-input" placeholder="' + placeholder + '"' + (search ? '' : ' readonly') + ' value="" style="' + width + '">' +
+        var _class = $this.attr('class') !== undefined ? $this.attr('class') : '';
+        var input = '<div class="d-form-select-title d-input-group clearfix">' +
+            '<input type="text" class="d-form-select-input" placeholder="' + placeholder + '"' + (search ? '' : ' readonly') + ' value="">' +
             '<span class="d-input-group-addon"><i class="iconfont">&#xe843;</i></span></div>';
-        var html = '<div class="d-form-select">' + input + ul + select_html + '</div>';
+        var html = '<div class="d-form-select ' + _class + '">' + input + ul + select_html + '</div>';
 
         $this.before(html);
         $this.remove();

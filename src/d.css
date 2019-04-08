@@ -404,6 +404,11 @@ body {
     line-height: 20px;
     vertical-align: middle;
     cursor: pointer;
+    padding-right: 5px;
+}
+
+.d-container .d-form-select:last-child {
+    padding-right: 0;
 }
 
 .d-container .d-form-select select {
@@ -502,12 +507,26 @@ body {
     cursor: pointer;
     padding-right: 10px;
     margin-bottom: 5px;
+    line-height: 37px;
+}
+
+.d-container .d-input-inline:last-child {
+    padding-right: 0;
+}
+
+.d-container .d-input-inline .d-form-select {
+    float: left;
+}
+
+.d-container .d-input-inline .d-form-select .d-form-select-input {
+    width: 100%;
 }
 
 .d-container .d-input-inline input, .d-container .d-input-inline select {
     display: inline-block;
     width: auto;
     vertical-align: middle;
+    float: left;
 }
 
 .d-container .d-input-inline input[type=radio], .d-container .d-input-inline input[type=checkbox] {
