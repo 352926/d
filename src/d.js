@@ -338,11 +338,11 @@ if (typeof jQuery === 'undefined' && typeof Zepto === 'undefined') {
                 select_group = true;
                 items.push('<li class="group">' + $(this).attr('label') + '</li>');
                 $(this).find('option').each(function () {
-                    items.push('<li class="' + ($(this).is(':selected') ? ' active' : '') + '" data-value="' + $(this).val() + '">' + $(this).html() + '</li>');
+                    items.push('<li class="' + ($(this).is(':selected') ? ' active' : '') + ($(this).is(':disabled') ? ' disabled' : '') + '" data-value="' + $(this).val() + '">' + $(this).html() + '</li>');
                 });
 
             } else {
-                items.push('<li class="' + li_class + ($(this).is(':selected') ? ' active' : '') + '" data-value="' + $(this).val() + '">' + $(this).html() + '</li>');
+                items.push('<li class="' + li_class + ($(this).is(':selected') ? ' active' : '') + ($(this).is(':disabled') ? ' disabled' : '') + '" data-value="' + $(this).val() + '">' + $(this).html() + '</li>');
             }
 
         });
@@ -380,14 +380,14 @@ if (typeof jQuery === 'undefined' && typeof Zepto === 'undefined') {
 
                     if (e.keyCode === 38) {
                         //上
-                        var $prev_option = $select_option.prevAll(':not(.group):not(.d-hide):first');
+                        var $prev_option = $select_option.prevAll(':not(.group):not(.d-hide):not(.disabled):first');
                         if ($prev_option && $prev_option.length > 0) {
                             $select_option.removeClass('active');
                             $prev_option.addClass('active')
                         }
                     } else if (e.keyCode === 40) {
                         //下
-                        var $next_option = $select_option.nextAll(':not(.group):not(.d-hide):first');
+                        var $next_option = $select_option.nextAll(':not(.group):not(.d-hide):not(.disabled):first');
                         if ($next_option && $next_option.length > 0) {
                             $select_option.removeClass('active');
                             $next_option.addClass('active');
@@ -541,28 +541,14 @@ if (typeof jQuery === 'undefined' && typeof Zepto === 'undefined') {
 
     $(document).on('click', '.d-container .d-form-select-title', ClickHandle);
     $(document).on('click', '.d-container .d-form-select-option li', function () {
+        if ($(this).hasClass('disabled')) {
+            return false;
+        }
         var value = $(this).attr('data-value');
         var $select = $(this).parent().parent().find('select:first');
         Plugin.call($select, 'val', value);
     });
 
-
-    // $('body').find('.d-container .d-form-select').find('input').keydown(function (e) {
-    //     console.log(e.keyCode);
-    //     if (e.keyCode === 38) {
-    //         //
-    //     }
-    // });
-    // $(document).keydown(function (e) {
-    //     console.log(e.keyCode);
-    //     return false;
-    // });
-    // $("input").keydown(function () {
-    //     $("input").css("background-color", "#FFFFCC");
-    // });
-    // $("input").keyup(function () {
-    //     $("input").css("background-color", "#D6D6FF");
-    // });
     $('.d-container').find('select').each(function () {
         Plugin.call($(this), 'init');
     });
