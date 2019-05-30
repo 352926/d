@@ -4,7 +4,7 @@
  * Time: 15:30
  */
 
-if (typeof jQuery === 'undefined' && typeof Zepto === 'undefined') {
+if (typeof jQuery === 'undefined') {
     throw new Error('D\'s JavaScript requires jQuery')
 }
 
@@ -12,7 +12,7 @@ if (typeof jQuery === 'undefined' && typeof Zepto === 'undefined') {
 +function ($) {
     'use strict';
     //var version = $.fn.jquery.split(' ')[0].split('.');
-}($);
+}(jQuery);
 
 // d-tab
 +function ($) {
@@ -68,7 +68,7 @@ if (typeof jQuery === 'undefined' && typeof Zepto === 'undefined') {
     };
 
     $(document).on('click', '.d-container .d-tab .d-tab-title li:not(.active)', clickHandle);
-}($);
+}(jQuery);
 
 // checkbox 样式优化
 +function ($) {
@@ -188,7 +188,7 @@ if (typeof jQuery === 'undefined' && typeof Zepto === 'undefined') {
     });
 
     $.fn.checkbox = Plugin;
-}($);
+}(jQuery);
 
 // radio 样式优化
 +function ($) {
@@ -300,7 +300,7 @@ if (typeof jQuery === 'undefined' && typeof Zepto === 'undefined') {
     });
 
     $.fn.radio = Plugin;
-}($);
+}(jQuery);
 
 // select 组件
 +function ($) {
@@ -326,6 +326,7 @@ if (typeof jQuery === 'undefined' && typeof Zepto === 'undefined') {
 
         var select_group = false;
 
+        var selected_value = '';
         var items = [];
         options.each(function () {
             var li_class = '';
@@ -333,16 +334,33 @@ if (typeof jQuery === 'undefined' && typeof Zepto === 'undefined') {
                 placeholder = $(this).html();
                 li_class = 'select_tips';
             }
+            var selected = '';
 
             if (this.tagName.toLowerCase() === 'optgroup') {
                 select_group = true;
                 items.push('<li class="group">' + $(this).attr('label') + '</li>');
                 $(this).find('option').each(function () {
-                    items.push('<li class="' + ($(this).is(':selected') ? ' active' : '') + ($(this).is(':disabled') ? ' disabled' : '') + '" data-value="' + $(this).val() + '">' + $(this).html() + '</li>');
+                    if ($(this).is(':selected')) {
+                        selected = ' active';
+                        if ($(this).val() !== '') {
+                            selected_value = $(this).html();
+                        }
+                    } else {
+                        selected = '';
+                    }
+                    items.push('<li class="' + selected + ($(this).is(':disabled') ? ' disabled' : '') + '" data-value="' + $(this).val() + '">' + $(this).html() + '</li>');
                 });
 
             } else {
-                items.push('<li class="' + li_class + ($(this).is(':selected') ? ' active' : '') + ($(this).is(':disabled') ? ' disabled' : '') + '" data-value="' + $(this).val() + '">' + $(this).html() + '</li>');
+                if ($(this).is(':selected')) {
+                    if ($(this).val() !== '') {
+                        selected_value = $(this).html();
+                    }
+                    selected = ' active';
+                } else {
+                    selected = '';
+                }
+                items.push('<li class="' + li_class + selected + ($(this).is(':disabled') ? ' disabled' : '') + '" data-value="' + $(this).val() + '">' + $(this).html() + '</li>');
             }
 
         });
@@ -351,7 +369,7 @@ if (typeof jQuery === 'undefined' && typeof Zepto === 'undefined') {
 
         var _class = $this.attr('class') !== undefined ? $this.attr('class') : '';
         var input = '<div class="d-form-select-title d-input-group clearfix">' +
-            '<input type="text" class="d-form-select-input" placeholder="' + placeholder + '"' + (search ? '' : ' readonly') + ' value="">' +
+            '<input type="text" class="d-form-select-input" placeholder="' + placeholder + '"' + (search ? '' : ' readonly') + ' value="' + selected_value + '">' +
             '<span class="d-input-group-addon"><i class="iconfont">&#xe843;</i></span></div>';
         var html = '<div class="d-form-select ' + _class + '">' + input + ul + select_html + '</div>';
 

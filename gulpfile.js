@@ -53,15 +53,15 @@ gulp.task('js_min', function () {
         .pipe(gulp.dest('dist/'));
 });
 
-gulp.task('default', ['clean'], function () {
-    gulp.start(['css_min', 'js_min']);
+gulp.task('default', function () {
+    gulp.start(['clean', 'css_min', 'js_min']);
 });
 
 gulp.task('clean', function (cb) {
     del(['./dist'], cb);
 });
 
-let watch_dir = 'src/*';
+var watch_dir = 'src/*';
 
 gulp.task('watch', function () {
     gulp.watch(watch_dir, function (e) {
