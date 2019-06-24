@@ -323,6 +323,14 @@ if (typeof jQuery === 'undefined') {
         var options = $this.children();
         var placeholder = '';
         var search = $this.attr('d-search') !== undefined;
+        var id = $this.attr('id');
+        var input_id = 'd-form-select-input-';
+        if (id !== undefined && id.length > 0) {
+            input_id += id;
+            $('.d-container').find('label[for=' + id + ']').attr('for', input_id);
+        } else {
+            input_id += Math.random().toString().replace('.', '');
+        }
 
         var select_group = false;
 
@@ -369,7 +377,7 @@ if (typeof jQuery === 'undefined') {
 
         var _class = $this.attr('class') !== undefined ? $this.attr('class') : '';
         var input = '<div class="d-form-select-title d-input-group clearfix">' +
-            '<input type="text" class="d-form-select-input" placeholder="' + placeholder + '"' + (search ? '' : ' readonly') + ' value="' + selected_value + '">' +
+            '<input type="text" id="' + input_id + '" class="d-form-select-input" placeholder="' + placeholder + '"' + (search ? '' : ' readonly') + ' value="' + selected_value + '">' +
             '<span class="d-input-group-addon"><i class="iconfont">&#xe843;</i></span></div>';
         var html = '<div class="d-form-select ' + _class + '">' + input + ul + select_html + '</div>';
 
