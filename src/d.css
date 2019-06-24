@@ -593,6 +593,10 @@ html,body {
     background-color: #fff;
     color: #555;
     outline: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .d-container .d-btn:hover {
