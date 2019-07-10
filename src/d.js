@@ -377,7 +377,7 @@ if (typeof jQuery === 'undefined') {
 
         var _class = $this.attr('class') !== undefined ? $this.attr('class') : '';
         var input = '<div class="d-form-select-title d-input-group clearfix">' +
-            '<input type="text" id="' + input_id + '" class="d-form-select-input" placeholder="' + placeholder + '"' + (search ? '' : ' readonly') + ' value="' + selected_value + '">' +
+            '<input type="text" id="' + input_id + '" class="d-form-select-input" placeholder="' + placeholder + '"' + (search ? '' : ' readonly') + ' value="' + selected_value + '" autocomplete="off">' +
             '<span class="d-input-group-addon"><i class="iconfont">&#xe843;</i></span></div>';
         var html = '<div class="d-form-select ' + _class + '">' + input + ul + select_html + '</div>';
 
